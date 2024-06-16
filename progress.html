@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgressCard</title>
+    <style>
+        h1,h2{
+         
+            border:1px solid black;
+            color:black;
+            margin:10px auto;
+            text-align: center;
+            border-radius: 5px;
+            padding:10px;
+           
+        }.main{
+            border:1px solid;
+            margin:20px auto;
+            overflow:auto;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+       
+        
+        
+        .card{
+            border:1px solid lightblue;
+            margin: 20px auto;
+            width:500px;
+            background-color:rgb(198, 156, 236);
+            padding:10px;
+            border-radius: 5px;
+            box-shadow: -2px -2px 3px;
+        }
+        li{
+            margin:15px 20px;
+            list-style: none;
+            background-color: white;
+            padding:10px;
+            border-radius: 5px;;
+        }
+        .marks input{
+            width:50px;
+            
+        }
+        .displayblock{
+            border:1px solid lightblue;
+            margin: 20px auto;
+            border-radius: 5px;
+            display:none;
+            font-family: monospace;
+
+        }
+        .result{
+            border:1px solid;
+            margin: 20px auto;
+            width:500px;
+            background-color:rgb(248, 185, 67);
+            padding:10px;
+            border-radius: 5px;
+            box-shadow: -2px -2px 3px;
+        }
+        input[type=button]{
+            width:150px;
+            border-radius: 5px;
+            background-color: aquamarine;
+            box-shadow: 2px 2px 3px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Progress Card</h1>
+    <div class="main">
+        <ul class="card">
+            <li>
+                <input type="text" id="name" placeholder="Enter student name">
+            </li>
+            <li>
+                <input type="text" id="age" placeholder="Enter student age">
+            </li>
+            <li>
+                Gender:
+                <input type="radio"  value="Male"name="gender">Male
+                <input type="radio"  value="Female"name="gender">Female
+            </li>
+            <li class="marks">
+                Marks:
+                <input type="text" id="m1" placeholder="Mathematics">
+                <input type="text" id="m2" placeholder="Science">
+                <input type="text" id="m3" placeholder="Telugu">
+                <input type="text" id="m4" placeholder="Social">
+                <input type="text" id="m5" placeholder="English">
+            </li>
+            <li style="text-align: center;">
+                <input type="button" value="Get progress card" onclick="readdata()">
+            </li>
+        </ul>
+        </div>
+
+        <div class="displayblock">
+            <ul class="result">
+                
+                <li>
+                    Student Name: <span id="sname"></span>
+                </li>
+                <li>
+                    Student Age: <span id="sage"></span>
+                </li>
+                <li>
+                    Student Gender: <span id="sgender"></span>
+                </li>
+                <li>
+                    Student Total: <span id="stotal"></span>
+                </li>
+                <li>
+                    Student Average: <span id="savg"></span>
+                </li>
+                <li>
+                    Student Grade: <span id="sgrade"></span>
+                </li>
+            </ul>
+        </div>
+  
+    <h2>Issued by RNMHS</h2>
+    <script>
+        var readdata=()=>{
+            var sdata={};
+            sdata.name=document.querySelector("#name").value;
+            sdata.age=document.querySelector("#age").value;
+            sdata.gender=document.querySelector("input[name=gender]:checked").value;
+            sdata.marks=[];
+            for(var i=0;i<5;i++){
+                var id=i+1;
+                var value=parseInt(document.querySelector("#m"+id).value);
+                sdata.marks.push(value);
+            }
+            var result=gettotalandavg(sdata);
+            sdata.total=result[0];
+            sdata.avg=result[1];
+            sdata.grade=getgrade(sdata);
+            displaydata(sdata);
+        }
+        var gettotalandavg=(sdata)=>{
+            var total=0;
+            for(var i=0;i<sdata.marks.length;i++){
+                total+=sdata.marks[i];
+            }
+            var avg=total/sdata.marks.length;
+            return [total,avg];
+        }
+        var getgrade=(sdata)=>{
+            var grade=(sdata.avg>=40)?"passed":"failed";
+            return grade;
+        }
+        var displaydata=(sdata)=>{
+            document.querySelector(".displayblock").style.display="block";
+            document.querySelector("#sname").innerText=sdata.name;
+            document.querySelector("#sage").innerText=sdata.age;
+            document.querySelector("#sgender").innerText=sdata.gender;
+            document.querySelector("#stotal").innerText=sdata.total;
+            document.querySelector("#savg").innerText=sdata.avg;
+            document.querySelector("#sgrade").innerText=sdata.grade;
+
+        }
+    </script>
+    
+</body>
+</html>
